@@ -1,3 +1,11 @@
+input::placeholder {color:rgba(0, 0, 0, 0.55);}
+input::-webkit-input-placeholder {color:rgba(0, 0, 0, 0.55);}
+input:-ms-input-placeholder {color:rgba(0, 0, 0, 0.55);} 
+textarea::placeholder {color:rgba(0, 0, 0, 0.55);}
+textarea::-webkit-input-placeholder {color:rgba(0, 0, 0, 0.55);}
+textarea:-ms-input-placeholder {color:rgba(0, 0, 0, 0.55);}
+
+
 .search {
     margin: 25px 0 0 0;
 }
@@ -52,11 +60,17 @@
     display: inline-flex;
     -webkit-box-align: center;
     align-items: center;
-    margin-right: 0.875rem;
+    margin-right: 0.45rem;
+    margin-left: 0.45rem;
     color:  #f77474;
     text-decoration: none;
     font-weight: 500;
     font-size: 1rem;
+    border: none;
+}
+
+.tag-0 {
+    color: rgba(0, 0, 0, 0.55);
 }
 
 .tag:hover {
@@ -100,3 +114,27 @@
 /* .card-img-top:hover {
     opacity: 80%;
 } */
+
+.main-img {
+    display: inline-block;
+}
+
+.input-tag {
+    width: 4rem;
+}
+
+#check-address { display: none; }
+#check-address:checked ~ .address { display: inline-block; } 
+.address { display: none; }
+
+#check-category { display: none; }
+#check-category:checked ~ .category { display: inline-block; }
+.category { display: none; }
+
+#check-target { display: none; }
+#check-target:checked ~ .target { display: inline-block; }
+.target { display: none; }
+
+#check-income { display: none; }
+#check-income:checked ~ .income { display: inline-block; }
+.income { display: none; }
