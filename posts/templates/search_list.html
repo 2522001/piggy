@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Piggy - 검색 결과</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Bootstrap icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        {% load static %}
+        <link href="{% static 'css/main.css' %}" rel="stylesheet" />
+        <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+    </head>
+    <body>
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container px-4 px-lg-5">
+                <a class="navbar-brand" href="{% url 'home' %}">Piggy</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                        <li class="nav-item"><a class="nav-link" href="#!">모든 소식</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">분야별 소식</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="#!">지원 정책</a></li>
+                                <li><a class="dropdown-item" href="#!">금융 상품</a></li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li><a class="dropdown-item" href="#!">주간 소식</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <form class="d-flex">
+                        <button class="btn-radius btn-outline-dark" type="submit">
+                            login
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+        <!-- Header-->
+        <header class="py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center">
+                    <!-- <img class="search-icon" src="assets/logo.png" width="30"> -->
+                    <div class="main">
+                        <img class="main-img" src="../static/assets/piggy-bank.png" width="80px">
+                        <img class="main-img" src="../static/assets/piggy-bank.png" width="80px">
+                        <img class="main-img" src="../static/assets/piggy-bank.png" width="80px">
+                    </div>
+                    <div class="search">
+                        <div class="search-box">
+                            <form action="." method="post">
+                                <input class="search-txt" type="text" placeholder="검색어를 입력하세요">
+                                <i class="fas fa-search"></i>
+                            </form></div>
+                        <div class="search-tag">
+                            <input class="tag font-gray input-tag text-center" type="text" placeholder="나이">
+                            <input id="check-address" type="checkbox" />
+                            <label for="check-address" class="tag font-gray">지역</label>
+                            <div class="address">
+                                <select name="addressDo" id="addressDo1"></select>
+                                <select name="addressSiGunGu" id="addressSiGunGu1"></select>
+                            </div>
+                            <input id="check-category" type="checkbox" />
+                            <label for="check-category" class="tag font-gray">분야</label>
+                            <div class="category">
+                                <select name="category">
+                                    <option value="support">지원 정책</option>
+                                    <option value="product">금융 상품</option>
+                                    <option value="tip">주간 소식</option>
+                                </select>
+                            </div>
+                            <input id="check-target" type="checkbox" />
+                            <label for="check-target" class="tag font-gray">대상</label>
+                            <div class="target">
+                                <select name="target">
+                                    <option value="1">대학생</option>
+                                    <option value="2">군인</option>
+                                    <option value="3">청년</option>
+                                    <option value="4">기혼</option>
+                                    <option value="5">미성년자</option>
+                                    <option value="6">직장인</option>
+                                    <option value="7">무주택자</option>
+                                    <option value="8">차상위계층</option>
+                                    <option value="9">장애인</option>
+                                    <option value="10">국가유공자</option>
+                                </select>
+                            </div>
+                            <input id="check-income" type="checkbox" />
+                            <label for="check-income" class="tag font-gray">월 소득</label>
+                            <div class="income">
+                                <select name="income">
+                                    <option value="0mw">무소득</option>
+                                    <option value="100mw">1-100만원</option>
+                                    <option value="200mw">101-200만원</option>
+                                    <option value="300mw">201-300만원</option>
+                                    <option value="400mw">301-400만원</option>
+                                    <option value="500mw">400만원 초과</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Section-->
+        <section class="py-3 bg-light">
+            <div class="navbar navbar-expand-lg navbar-light">
+                <div class="container px-4 px-lg-5">
+                    <h3 class="fw-bolder">"{{ kw }}" 검색 결과</h3>
+                    <ul class="navbar-nav mb-2 ms-lg-4">
+                        <li class="nav-item"><a class="nav-link" href="#!">조회순</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#!">마감기한순</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="container px-4 px-lg-5 mt-4">
+                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                    
+                {% if kw %}
+                    {% if search_posts %}
+                        {% for post in search_posts %}
+
+                            <div class="col mb-5 none-a">
+                                <a class="card h-100" href="{% url 'post-detail' post.id %}">
+                                    <!-- D-day -->
+                                    {% if post.end_date %}
+                                        <div class="badge bg-pink text-white position-absolute" style="top: 0.5rem; right: 0.5rem">{{ post.end_date|timeuntil }} left</div>
+                                    {% endif %}
+                                    <!-- image-->
+                                    <img class="card-img-top" src="{{ post.photo.url }}" alt="..." />
+                                    <!-- details-->
+                                    <div class="card-body p-4">
+                                        <div class="text-center">
+                                            <!-- title -->
+                                            <h5 class="fw-bolder">{{ post.title }}</h5>
+                                            <!-- term -->
+                                            {{ post.term }} </br>
+                                            <!-- subhead -->
+                                            {{ post.subhead }}
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        검색 결과가 없습니다.
+                    {% endif %}
+                {% endif %}
+                
+                </div>
+            </div>
+        </section>
+        <!-- Footer-->
+        <footer class="py-5 bg-light">
+            <div class="container">
+                <p class="m-0 text-center">Copyright &copy; Piggy 2022</p>
+                <p class="m-0 text-center">중앙대학교 다빈치 SW·AI 공모전 | 김민서 최다민</p>
+
+            </div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        
+    </body>
+</html>

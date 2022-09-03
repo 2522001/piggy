@@ -41,6 +41,7 @@ textarea:-ms-input-placeholder {color:rgba(0, 0, 0, 0.55);}
     right: 15px;
     top: 33.5px;
     margin: 0;
+    cursor: pointer;
 }
 
 /* .tag {
@@ -69,7 +70,7 @@ textarea:-ms-input-placeholder {color:rgba(0, 0, 0, 0.55);}
     border: none;
 }
 
-.tag-0 {
+.font-gray {
     color: rgba(0, 0, 0, 0.55);
 }
 
@@ -94,7 +95,20 @@ textarea:-ms-input-placeholder {color:rgba(0, 0, 0, 0.55);}
     cursor: pointer;
 }
 
-
+.btn-radius-2 {
+    height: 2rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    font-size: 1rem;
+    border-radius: 1rem;
+    outline: none;
+    font-weight: bold;
+    word-break: keep-all;
+    background: #212529;
+    color: white;
+    transition: all 0.125s ease-in 0s;
+    cursor: pointer;
+}
 
 .card {
     box-shadow: rgb(0 0 0 / 4%) 0px 4px 16px 0px;
@@ -138,3 +152,5 @@ textarea:-ms-input-placeholder {color:rgba(0, 0, 0, 0.55);}
 #check-income { display: none; }
 #check-income:checked ~ .income { display: inline-block; }
 .income { display: none; }
+
+
