@@ -1,139 +1,92 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Piggy - {{ post_detail.title }}</title>
-        <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-        <!-- Bootstrap icons-->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-        <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <!-- Core theme CSS (includes Bootstrap)-->
-        {% load static %}
-        <link href="{% static 'css/main.css' %}" rel="stylesheet" />
-        <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
-    </head>
-    <body>
-        <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="{% url 'home' %}">Piggy</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                        <li class="nav-item"><a class="nav-link" href="{% url 'list-all' %}">모든 소식</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">분야별 소식</a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#!">지원 정책</a></li>
-                                <li><a class="dropdown-item" href="#!">금융 상품</a></li>
-                                <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item" href="#!">주간 소식</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <form class="d-flex">
-                        <button class="btn-radius btn-outline-dark" type="submit">
-                            login
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </nav>
-        <!-- Product section-->
-        <section class="py-5">
-            <div class="container px-4 px-lg-5 my-5">
-                <div class="row gx-4 gx-lg-5 align-items-center">
-                    {% if post_detail.photo %}
-                        <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="{{ post_detail.photo.url }}" alt="..." /></div>
+{% extends "base.html" %}
+{% block contents %}
+
+<!-- detail -->
+<section class="py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="row gx-4 gx-lg-5 align-items-center">
+            {% if post_detail.photo %}
+                <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="{{ post_detail.photo.url }}" alt="..." /></div>
+            {% endif %}
+            <div class="col-md-6">
+                <!-- <div class="small mb-1">comment</div> -->
+                {% if post_detail.end_date %}
+                    <div class="fs-5 mb-1">~ {{ post_detail.end_date|date:"y.m.d" }}</div>
+                {% else %}
+                    <div class="fs-5 mb-1">상시</div>
+                {% endif %}
+                <h1 class="display-5 fw-bolder mb-3">{{ post_detail.title }}</h1>
+                <div class="search-tag mb-4">
+                    <a class="tag" href="#!">{{ post_detail.category }}</a>
+                    {% if post_detail.loc1 %}
+                        <a class="tag" href="#!">{{ post_detail.loc1 }}</a>
                     {% endif %}
-                    <div class="col-md-6">
-                        <!-- <div class="small mb-1">comment</div> -->
-                        <div class="fs-5 mb-1">{{ post_detail.term }}</div>
-                        <h1 class="display-5 fw-bolder mb-3">{{ post_detail.title }}</h1>
-                        <div class="search-tag mb-4">
-                            <a class="tag" href="#!">{{ post_detail.category }}</a>
-                            {% if post_detail.loc1 %}
-                                <a class="tag" href="#!">{{ post_detail.loc1 }}</a>
-                            {% endif %}
-                            {% if post_detail.loc2 %}
-                                <a class="tag" href="#!">{{ post_detail.loc2 }}</a>
-                            {% endif %}
-                            {% if post_detail.target %}
-                                <a class="tag" href="#!">{{ post_detail.target }}</a>
-                            {% endif %}
-                            {% if post_detail.income %}
-                                <a class="tag" href="#!">{{ post_detail.income }}</a>
-                            {% endif %}
-                        </div>
-                        <p class="lead">{{ post_detail.body }}</p>
-                        <div class="d-flex">
-                            <!-- <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem" /> -->
-                            
-                            <button class="btn-radius btn-outline-dark flex-shrink-0" type="submit">
-                                더보기
-                            </button>
-                        </div>
-                    </div>
+                    {% if post_detail.loc2 %}
+                        <a class="tag" href="#!">{{ post_detail.loc2 }}</a>
+                    {% endif %}
+                    {% if post_detail.target %}
+                        <a class="tag" href="#!">{{ post_detail.target }}</a>
+                    {% endif %}
+                    {% if post_detail.income %}
+                        <a class="tag" href="#!">{{ post_detail.income }}</a>
+                    {% endif %}
                 </div>
-            </div>
-        </section>
-        <!-- Related items section-->
-        <section class="py-3 bg-light">
-            <div class="navbar navbar-expand-lg navbar-light">
-                <div class="container px-4 px-lg-5">
-                    <h3 class="fw-bolder">관련 소식</h3>
-                    <ul class="navbar-nav mb-2 ms-lg-4">
-                        <li class="nav-item"><a class="nav-link" href="#!">조회순</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#!">마감기한순</a></li>
-                    </ul>
+                <div style="height: 25rem; overflow: auto">
+                    <p class="lead">{{ post_detail.body|linebreaks }}</p>
                 </div>
+                <!-- <div class="d-flex">                    
+                    <button class="btn-radius btn-outline-dark flex-shrink-0" type="submit">
+                        더보기
+                    </button>
+                </div> -->
             </div>
-            <div class="container px-4 px-lg-5 mt-4">
-                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                    
-                {% for post in posts %}
+        </div>
+    </div>
+</section>
+<!-- Related items section-->
+<section class="py-4 bg-light">
+    <div class="navbar navbar-expand-lg navbar-light">
+        <div class="container px-4 px-lg-5">
+            <h3 class="fw-bolder">관련 소식</h3>
+            <ul class="navbar-nav mb-2 ms-lg-4">
+                <li class="nav-item"><a class="nav-link" href="#!">조회순</a></li>
+                <li class="nav-item"><a class="nav-link" href="#!">마감기한순</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="container px-4 px-lg-5 mt-4">
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+            
+        {% for post in posts %}
 
-                    <div class="col mb-5 none-a">
-                        <a class="card h-100" href="{% url 'post-detail' post.id %}">
-                            <!-- D-day -->
+            <div class="col mb-5 none-a">
+                <a class="card h-100" href="{% url 'post-detail' post.id %}">
+                    <!-- D-day -->
+                    {% if post.end_date %}
+                        <div class="badge bg-pink text-white position-absolute" style="top: 0.5rem; right: 0.5rem">{{ post.end_date|timeuntil }} left</div>
+                    {% endif %}
+                    <!-- image-->
+                    <img class="card-img-top" src="{{ post.photo.url }}" alt="..." />
+                    <!-- details-->
+                    <div class="card-body p-4">
+                        <div class="text-center">
+                            <!-- title -->
+                            <h5 class="fw-bolder">{{ post.title }}</h5>
+                            <!-- term -->
                             {% if post.end_date %}
-                                <div class="badge bg-pink text-white position-absolute" style="top: 0.5rem; right: 0.5rem">{{ post.end_date|timeuntil }} left</div>
+                                ~ {{ post.end_date|date:"y.m.d" }} </br>
+                            {% else %}
+                                상시 </br>
                             {% endif %}
-                            <!-- image-->
-                            <img class="card-img-top" src="{{ post.photo.url }}" alt="..." />
-                            <!-- details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- title -->
-                                    <h5 class="fw-bolder">{{ post.title }}</h5>
-                                    <!-- term -->
-                                    {{ post.term }} </br>
-                                    <!-- subhead -->
-                                    {{ post.subhead }}
-                                </div>
-                            </div>
-                        </a>
+                            <!-- subhead -->
+                            {{ post.subhead }}
+                        </div>
                     </div>
-                {% endfor %}
+                </a>
+            </div>
+        {% endfor %}
 
-                </div>
-            </div>
-        </section>
-        <!-- Footer-->
-        <footer class="py-5 bg-light">
-            <div class="container">
-                <p class="m-0 text-center">Copyright &copy; Piggy 2022</p>
-                <p class="m-0 text-center">중앙대학교 다빈치 SW·AI 공모전 | 김민서 최다민</p>
-            </div>
-        </footer>
-        <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="js/scripts.js"></script>
-    </body>
-</html>
+        </div>
+    </div>
+</section>
+{% endblock %}

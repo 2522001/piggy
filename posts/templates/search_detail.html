@@ -1,167 +1,213 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Piggy - 상세 검색</title>
-        <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-        <!-- Bootstrap icons-->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-        <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <!-- Core theme CSS (includes Bootstrap)-->
-        {% load static %}
-        <link href="{% static 'css/main.css' %}" rel="stylesheet" />
-        <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
-    </head>
-    <body>
-        <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="{% url 'home' %}">Piggy</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                        <li class="nav-item"><a class="nav-link" href="#!">모든 소식</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">분야별 소식</a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#!">지원 정책</a></li>
-                                <li><a class="dropdown-item" href="#!">금융 상품</a></li>
-                                <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item" href="#!">주간 소식</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <form class="d-flex">
-                        <button class="btn-radius btn-outline-dark" type="submit">
-                            login
-                        </button>
-                    </form>
-                </div>
+{% extends "base.html" %}
+{% block contents %}
+<!-- Header-->
+<header class="py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center">
+            <!-- <img class="search-icon" src="assets/logo.png" width="30"> -->
+            <div class="main">
+                <img class="main-img" src="../static/assets/piggy-bank.png" width="80px">
+                <img class="main-img" src="../static/assets/piggy-bank.png" width="80px">
+                <img class="main-img" src="../static/assets/piggy-bank.png" width="80px">
             </div>
-        </nav>
-        <!-- Header-->
-        <header class="py-5">
-            <div class="container px-4 px-lg-5 my-5">
-                <div class="text-center">
-                    <!-- <img class="search-icon" src="assets/logo.png" width="30"> -->
-                    <div class="main">
-                        <img class="main-img" src="../static/assets/piggy-bank.png" width="80px">
-                        <img class="main-img" src="../static/assets/piggy-bank.png" width="80px">
-                        <img class="main-img" src="../static/assets/piggy-bank.png" width="80px">
+            <div class="search">
+                <div class="search-box">
+                    <input class="search-txt" type="text" id="search_kw" value="{{ kw }}" placeholder="검색어를 입력하세요">
+                    <i class="fas fa-search" id="btn_search"></i>
+                </div>
+                <form id="searchForm" method="get" action="{% url 'search-list' %}">
+                    <input type="hidden" id="kw" name="kw" value="{{ kw }}">
+                    <!-- <input type="hidden" id="kw_age" name="kw_age" value="{{ kw_age }}"> -->
+                </form>
+                
+                
+                <div class="search-tag">
+                        <input class="tag input-tag text-center" type="text" id="search_kw_age" value="{{ kw_age }}" placeholder="나이">
+    
+                    <!-- 지역 -->
+                    <span class="tag">지역</span>
+                    <span class="loc">
+                        <!-- <select name="sido1" id="sido1"></select>
+                        <select name="gugun1" id="gugun1"></select>
+                    </span> -->
+                        <select onchange="loc2(this)">
+                            <option>전체</option>
+                            <option value="서울">서울</option>
+                            <option value="경기">경기</option>
+                            <option value="인천">인천</option>
+                            <option value="강원">강원</option>
+                            <option value="충북">충북</option>
+                            <option value="충남">충남</option>
+                            <option value="전북">전북</option>
+                            <option value="전남">전남</option>
+                            <option value="경북">경북</option>
+                            <option value="경남">경남</option>
+                            <option value="부산">부산</option>
+                            <option value="대구">대구</option>
+                            <option value="광주">광주</option>
+                            <option value="대전">대전</option>
+                            <option value="울산">울산</option>
+                            <option value="제주">제주</option>
+                        </select>
+        
+                        <select id="loc2">
+                        <option>전체</option>
+                        </select>
+                        <script>
+                        function loc2(e) {
+                            var loc2_서울 = ['전체','강남구','강동구','강북구','강서구','관악구','광진구','구로구','금천구','노원구','도봉구','동대문구','동작구','마포구','서대문구','서초구','성동구','성북구','송파구','양천구','영등포구','용산구','은평구','종로구','중구','중랑구'];
+                            var loc2_경기 = ['전체','고양시','과천시','광명시','구리시','군포시','남양주시','동두천시','부천시','성남시','수원시','시흥시','안산시','안양시','오산시','의왕시','의정부시','평택시','하남시','가평군','광주시','김포시','안성시','양주군','양평군','여주군','연천군','용인시','이천군','파주시','포천시','화성시'];
+                            var loc2_인천 = ['전체','계양구','남구','남동구','동구','부평구','서구','연수구','중구','강화군','옹진군'];
+                            var loc2_강원 = ['전체','강릉시','동해시','삼척시','속초시','원주시','춘천시','태백시','고성군','양구군','양양군','영월군','인제군','정선군','철원군','평창군','홍천군','화천군','횡성군'];
+                            var loc2_충북 = ['전체','제천시','청주시','충주시','괴산군','단양군','보은군','영동군','옥천군','음성군','진천군','청원군'];
+                            var loc2_충남 = ['전체','공주시','보령시','서산시','아산시','천안시','금산군','논산군','당진군','부여군','서천군','연기군','예산군','청양군','태안군','홍성군'];
+                            var loc2_전북 = ['전체','군산시','김제시','남원시','익산시','전주시','정읍시','고창군','무주군','부안군','순창군','완주군','임실군','장수군','진안군'];
+                            var loc2_전남 = ['전체','광양시','나주시','목포시','순천시','여수시','여천시','강진군','고흥군','곡성군','구례군','담양군','무안군','보성군','신안군','여천군','영광군','영암군','완도군','장성군','장흥군','진도군','함평군','해남군','화순군'];
+                            var loc2_경북 = ['전체','경산시','경주시','구미시','김천시','문겅시','상주시','안동시','영주시','영천시','포항시','고령군','군위군','봉화군','성주군','영덕군','영양군','예천군','울릉군','울진군','의성군','청도군','청송군','칠곡군'];
+                            var loc2_경남 = ['전체','거제시','김해시','마산시','밀양시','사천시','울산시','진주시','진해시','창원시','통영시','거창군','고성군','남해군','산청군','양산시','의령군','창녕군','하동군','함안군','함양군','합천군'];
+                            var loc2_부산 = ['전체','강서구','금정구','남구','동구','동래구','부산진구','북구','사상구','사하구','서구','수영구','연제구','영도구','중구','해운대구','기장군'];
+                            var loc2_대구 = ['전체','남구','달서구','동구','북구','서구','수성구','중구','달성군'];
+                            var loc2_광주 = ['전체','광산구','남구','동구','북구','서구'];
+                            var loc2_대전 = ['전체','대덕구','동구','서구','유성구','중구'];
+                            var loc2_울산 = ['전체','남구','동구','북구','중구','울주군'];
+                            var loc2_제주 = ['전체','서귀포시','제주시','남제주군','북제주군'];
+                            var target = document.getElementById("loc2");
+                        
+                            if(e.value == "서울") var d = loc2_서울;
+                            else if(e.value == "경기") var d = loc2_경기;
+                            else if(e.value == "인천") var d = loc2_인천;
+                            else if(e.value == "강원") var d = loc2_강원;
+                            else if(e.value == "충북") var d = loc2_충북;
+                            else if(e.value == "충남") var d = loc2_충남;
+                            else if(e.value == "전북") var d = loc2_전북;
+                            else if(e.value == "전남") var d = loc2_전남;
+                            else if(e.value == "경북") var d = loc2_경북;
+                            else if(e.value == "경남") var d = loc2_경남;
+                            else if(e.value == "부산") var d = loc2_부산;
+                            else if(e.value == "대구") var d = loc2_대구;
+                            else if(e.value == "광주") var d = loc2_광주;
+                            else if(e.value == "대전") var d = loc2_대전;
+                            else if(e.value == "울산") var d = loc2_울산;
+                            else if(e.value == "제주") var d = loc2_제주;
+                        
+                            target.options.length = 0;
+                        
+                            for (x in d) {
+                                var opt = document.createElement("option");
+                                opt.value = d[x];
+                                opt.innerHTML = d[x];
+                                target.appendChild(opt);
+                            }
+                        }
+                        </script>
+                    </span>
+                    <!-- 분야 -->
+                    <span class="tag">분야</span>
+                    <!-- <form method="post" style="display:inline!important;">
+                        {% csrf_token %} -->
+                        <span class="categories">
+                            <input type='checkbox' class='search-check' name='categories' value='지원 정책' /> 지원 정책
+                            <input type='checkbox' class='search-check' name='categories' value='금융 상품' /> 금융 상품
+                            <input type='checkbox' class='search-check' name='categories' value='주간 소식' /> 주간 소식
+                        </span>
+                    <!-- </form> -->
+                    <!-- 대상 -->
+                    <br/>
+                    <span class="tag">대상</span>
+                    <!-- <form class="targetForm" method="post" style="display:inline!important;">
+                        {% csrf_token %} -->
+                        <span class="targets">
+                            <input type='checkbox' class='search-check' name='kw_target' value='청년' /> 청년
+                            <input type='checkbox' class='search-check' name='kw_target' value='미성년자' /> 미성년자
+                            <input type='checkbox' class='search-check' name='kw_target' value='대학생' /> 대학생
+                            <input type='checkbox' class='search-check' name='kw_target' value='직장인' /> 직장인
+                            <input type='checkbox' class='search-check' name='kw_target' value='군인' /> 군인
+                            <input type='checkbox' class='search-check' name='kw_target' value='기혼' /> 기혼
+                            <input type='checkbox' class='search-check' name='kw_target' value='무주택자' /> 무주택자
+                            <input type='checkbox' class='search-check' name='kw_target' value='차상위' /> 차상위
+                            <input type='checkbox' class='search-check' name='kw_target' value='장애인' /> 장애인
+                            <input type='checkbox' class='search-check' name='kw_target' value='국가유공자' /> 국가유공자
+                        </span>
+                    </form>
+                    <!-- 월 소득 -->
+                    <br/>
+                    <span class="tag">월 소득</span>
+                    <!-- <form method="post" style="display:inline!important;">
+                        {% csrf_token %} -->
+                        <span class="incomes">
+                            <input type='checkbox' class='search-check' name='income' value='무소득' /> 무소득
+                            <input type='checkbox' class='search-check' name='income' value='1~100만원' /> 1~100만원
+                            <input type='checkbox' class='search-check' name='income' value='101~200만원' /> 101~200만원
+                            <input type='checkbox' class='search-check' name='income' value='201~300만원' /> 201~300만원
+                            <input type='checkbox' class='search-check' name='income' value='301~400만원' /> 301~400만원
+                            <input type='checkbox' class='search-check' name='income' value='401만원 초과' /> 401만원 초과
+                        </span>
+                    <!-- </form> -->
+                    <!-- <span class="tag">월소득2
+                        <div>
+                            <input type="range" id="volume" name="volume"
+                                   min="0" max="11">
+                            <label for="volume">Volume</label>
+                          </div>
+                          
+                          <div>
+                            <input type="range" id="cowbell" name="cowbell" 
+                                   min="0" max="100" value="90" step="10">
+                            <label for="cowbell">Cowbell</label>
+                          </div>
+                    </span> -->
                     </div>
-                    <div class="search">
-                        <div class="search-box">
-                            <form action="." method="post">
-                                <input class="search-txt" type="text" placeholder="검색어를 입력하세요">
-                                <i class="fas fa-search"></i>
-                            </form></div>
-                        <div class="search-tag">
-                            <input class="tag font-gray input-tag text-center" type="text" placeholder="나이">
-                            <input id="check-address" type="checkbox" />
-                            <label for="check-address" class="tag font-gray">지역</label>
-                            <div class="address">
-                                <select name="addressDo" id="addressDo1"></select>
-                                <select name="addressSiGunGu" id="addressSiGunGu1"></select>
-                            </div>
-                            <input id="check-category" type="checkbox" />
-                            <label for="check-category" class="tag font-gray">분야</label>
-                            <div class="category">
-                                <select name="category">
-                                    <option value="support">지원 정책</option>
-                                    <option value="product">금융 상품</option>
-                                    <option value="tip">주간 소식</option>
-                                </select>
-                            </div>
-                            <input id="check-target" type="checkbox" />
-                            <label for="check-target" class="tag font-gray">대상</label>
-                            <div class="target">
-                                <select name="target">
-                                    <option value="1">대학생</option>
-                                    <option value="2">군인</option>
-                                    <option value="3">청년</option>
-                                    <option value="4">기혼</option>
-                                    <option value="5">미성년자</option>
-                                    <option value="6">직장인</option>
-                                    <option value="7">무주택자</option>
-                                    <option value="8">차상위계층</option>
-                                    <option value="9">장애인</option>
-                                    <option value="10">국가유공자</option>
-                                </select>
-                            </div>
-                            <input id="check-income" type="checkbox" />
-                            <label for="check-income" class="tag font-gray">월 소득</label>
-                            <div class="income">
-                                <select name="income">
-                                    <option value="0mw">무소득</option>
-                                    <option value="100mw">1-100만원</option>
-                                    <option value="200mw">101-200만원</option>
-                                    <option value="300mw">201-300만원</option>
-                                    <option value="400mw">301-400만원</option>
-                                    <option value="500mw">400만원 초과</option>
-                                </select>
-                            </div>
+                <!-- </form> -->
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Section-->
+<section class="py-4 bg-light">
+    <div class="navbar navbar-expand-lg navbar-light">
+        <div class="container px-4 px-lg-5">
+            <h3 class="fw-bolder">많이 검색한 소식</h3>
+            <ul class="navbar-nav mb-2 ms-lg-4">
+                <li class="nav-item"><a class="nav-link" href="#!">조회순</a></li>
+                <li class="nav-item"><a class="nav-link" href="#!">마감기한순</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="container px-4 px-lg-5 mt-4">
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+            
+        {% for post in posts %}
+
+            <div class="col mb-5 none-a">
+                <a class="card h-100" href="{% url 'post-detail' post.id %}">
+                    <!-- D-day -->
+                    {% if post.end_date %}
+                        <div class="badge bg-pink text-white position-absolute" style="top: 0.5rem; right: 0.5rem">{{ post.end_date|timeuntil }} left</div>
+                    {% endif %}
+                    <!-- image-->
+                    <img class="card-img-top" src="{{ post.photo.url }}" alt="..." />
+                    <!-- details-->
+                    <div class="card-body p-4">
+                        <div class="text-center">
+                            <!-- title -->
+                            <h5 class="fw-bolder">{{ post.title }}</h5>
+                            <!-- term -->
+                            {% if post.end_date %}
+                                ~ {{ post.end_date|date:"y.m.d" }} </br>
+                            {% else %}
+                                상시 </br>
+                            {% endif %}
+                            <!-- subhead -->
+                            {{ post.subhead }}
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
-        </header>
-        <!-- Section-->
-        <section class="py-3 bg-light">
-            <div class="navbar navbar-expand-lg navbar-light">
-                <div class="container px-4 px-lg-5">
-                    <h3 class="fw-bolder">많이 검색한 소식</h3>
-                    <ul class="navbar-nav mb-2 ms-lg-4">
-                        <li class="nav-item"><a class="nav-link" href="#!">조회순</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#!">마감기한순</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="container px-4 px-lg-5 mt-4">
-                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                    
-                {% for post in posts %}
+        {% endfor %}
 
-                    <div class="col mb-5 none-a">
-                        <a class="card h-100" href="{% url 'post-detail' post.id %}">
-                            <!-- D-day -->
-                            {% if post.end_date %}
-                                <div class="badge bg-pink text-white position-absolute" style="top: 0.5rem; right: 0.5rem">{{ post.end_date|timeuntil }} left</div>
-                            {% endif %}
-                            <!-- image-->
-                            <img class="card-img-top" src="{{ post.photo.url }}" alt="..." />
-                            <!-- details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- title -->
-                                    <h5 class="fw-bolder">{{ post.title }}</h5>
-                                    <!-- term -->
-                                    {{ post.term }} </br>
-                                    <!-- subhead -->
-                                    {{ post.subhead }}
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                {% endfor %}
+        </div>
+    </div>
+</section>
 
-                </div>
-            </div>
-        </section>
-        <!-- Footer-->
-        <footer class="py-5 bg-light">
-            <div class="container">
-                <p class="m-0 text-center">Copyright &copy; Piggy 2022</p>
-                <p class="m-0 text-center">중앙대학교 다빈치 SW·AI 공모전 | 김민서 최다민</p>
-
-            </div>
-        </footer>
-        <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-        
-    </body>
-</html>
+{% endblock %}
+    

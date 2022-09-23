@@ -77,6 +77,7 @@ textarea:-ms-input-placeholder {color:rgba(0, 0, 0, 0.55);}
 .tag:hover {
     opacity: 80%;
     color:  #f77474;
+    cursor: pointer;
 }
 
 .btn-radius {
@@ -137,20 +138,6 @@ textarea:-ms-input-placeholder {color:rgba(0, 0, 0, 0.55);}
     width: 4rem;
 }
 
-#check-address { display: none; }
-#check-address:checked ~ .address { display: inline-block; } 
-.address { display: none; }
-
-#check-category { display: none; }
-#check-category:checked ~ .category { display: inline-block; }
-.category { display: none; }
-
-#check-target { display: none; }
-#check-target:checked ~ .target { display: inline-block; }
-.target { display: none; }
-
-#check-income { display: none; }
-#check-income:checked ~ .income { display: inline-block; }
-.income { display: none; }
-
-
+.search-check {
+    margin-left: 0.45rem;
+}

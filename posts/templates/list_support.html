@@ -31,7 +31,11 @@
                             <!-- title -->
                             <h5 class="fw-bolder">{{ post.title }}</h5>
                             <!-- term -->
-                            {{ post.term }} </br>
+                            {% if post.end_date %}
+                                ~ {{ post.end_date|date:"y.m.d" }} </br>
+                            {% else %}
+                                상시 </br>
+                            {% endif %}
                             <!-- subhead -->
                             {{ post.subhead }}
                         </div>
