@@ -17,14 +17,6 @@ textarea:-ms-input-placeholder {color:rgba(0, 0, 0, 0.55);}
     margin: 0 auto;
   }
 
-/* .search-txt {
-    width: 100%;
-    border-radius: 8px;
-    border: 1px solid #bbb;
-    margin: 15px 0;
-    padding: 10px 12px;
-} */
-
 .search-txt {
     width: 100%;
     background: #F8F9FA;

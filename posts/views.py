@@ -1,8 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Post
-from django.utils import timezone
-from .forms import PostForm
-import datetime
+from django.contrib import auth # 유저 확인
+from django.contrib.auth.models import User
 from django.db.models import Q
 
 # 주요 소식을 불러오는 함수
@@ -16,63 +15,82 @@ def home(request):
     return render(request, 'index.html', {'posts':posts})
 
 def search_list(request):
-    # page = request.GET.get('page', '1')  # 페이지
-    kw = request.GET.get('kw', '')  # 검색어
-    kw_tag = request.GET.get('kw_tag', '')
-    kw_age = request.GET.get('kw_age', '')  # 나이
-    search_posts = Post.objects.all()
 
+    # page = request.GET.get('page', '1')  # 페이지
+    print("requests.GET.get : ", request.GET.get)
+    kw = request.GET.get('kw', None)  # 검색어
+    # kw_tag = request.GET.get('kw_tag', None)
+    kw_age = request.GET.get('kw_age', None)
+    kw_target = request.GET.get('kw_target', None)
+    print("kw_target : ", kw_target)
+    income = request.GET.get('income', None)
+    categories = request.GET.get('categories', None)
+    kw_loc = request.GET.get('kw_loc', None)
+    kw_loc0 = request.GET.get('kw_loc0', None)
+    print("kw_loc0 : ", kw_loc0)
+    print("kw_loc : ", kw_loc)
+    print("kw_target : ", kw_target)
+
+
+    search_posts = Post.objects.filter().order_by('-count') # 조회순 정렬
     # age = request.GET.getlist('age', None)
     # loc = request.GET.getlist('loc', None)
     # category = request.GET.getlist('category', None)
-    kw_target = request.GET.getlist('target', None)
-    print(f"test: {kw_target}")
 
-    kw_income = request.GET.getlist('income', None)
-    
-    if kw_tag:
+    if kw_age:
         search_posts = search_posts.filter(
-            Q(title__icontains=kw_tag) |  # 제목 검색
-            Q(body__icontains=kw_tag)   # 내용 검색
+            Q(min_age__lte=kw_age) |
+            Q(max_age__gte=kw_age)
         ).distinct()
-        
+
+    if kw_loc0 == "전체":
+        pass
+    else:
+        if kw_loc == "전체":
+            pass
+        else:
+            search_posts = search_posts.filter(
+                    loc2=kw_loc
+                )
     if kw:
         search_posts = search_posts.filter(
-            Q(title__icontains=kw) |  # 제목 검색
-            Q(body__icontains=kw)  |
-            Q(subhead__icontains=kw)   # 내용 검색
+                Q(title__icontains=kw) |  # 제목 검색
+                Q(body__icontains=kw)  |
+                Q(subhead__icontains=kw)  # 내용 검색
         ).distinct()
 
-    q=Q()
-    if kw_age:
-        print(kw_age)
-        q &= Q(min_age__lte=kw_age) # min_age <= kw_age
-        q &= Q(max_age__gte=kw_age) # max_age >= kw_age
+    if income:
+        search_posts = search_posts.filter(
+            Q(income__icontains=income)
+        ).distinct()
+
+    print("카테고리 전 search_posts :", search_posts)
+    if categories:
+        categories = categories.replace("+", "").strip()
+        print("categories : ", categories)
+        search_posts = search_posts.filter(category=categories).distinct()
+
+        print("카테고리 후 search_posts :", search_posts)
+
     if kw_target:
-        print(kw_target)
-        for i in kw_target:
-            # q = q | Q(target__icontains=i)
-            q &= Q(target=i)|Q(target__startswith=i+',')|Q(target__endswith=','+i)|Q(target__contains = ','+i+',')
+        print("target 전 : ", kw_target)
+        search_posts = search_posts.filter(
+            Q(target__icontains=kw_target)
+        )
+    print(search_posts.query)
+    print("target 후 search_posts : ", search_posts)
+    if len(search_posts) > 0:
+        exist_posts = True
+    else:
+        exist_posts = False
 
-    # if selected_target:
-    #     for i in selected_target:
-    #         q &= Q(target=i)|Q(target__startswith=i+',')|Q(target__endswith=','+i)|Q(target__contains = ','+i+',')
-    # if selected_income:
-    #     for i in selected_income:
-    #         q &= Q(income=i)|Q(income__startswith=i+',')|Q(income__endswith=','+i)|Q(income__contains = ','+i+',')
-    
-    search_posts = search_posts.filter(q).distinct() # distinct() : 중복 행 제거 후 출력
-
-    # if kw:
-    #     search_posts = search_posts.filter(
-    #         Q(title__icontains=kw) |  # 제목 검색
-    #         Q(body__icontains=kw)   # 내용 검색
-    #         # Q(loc1__icontains=kw) |  # 지역1 검색
-    #     ).distinct()
-    # paginator = Paginator(question_list, 10)  # 페이지당 10개씩 보여주기
-    # page_obj = paginator.get_page(page)
-    # context = {'question_list': page_obj, 'page': page, 'kw': kw}
-    return render(request, 'search_list.html', {'kw':kw, 'search_posts':search_posts})
+    context = {
+        "kw":kw,
+        "kw_age":kw_age,
+        "exist_posts":exist_posts,
+        "search_posts":search_posts
+    }
+    return render(request, 'search_list.html', context=context)
 
 def list_all(request):
     posts = Post.objects.all() # 모든 소식
@@ -97,5 +115,41 @@ def search_detail(request):
 # post_id 번째 글을 DB에서 가져와서 detail.html에 띄워주는 함수
 def get_post_detail(request, post_id):
     post_detail = get_object_or_404(Post, pk=post_id)
-    posts = Post.objects.filter().order_by('title')
-    return render(request, 'post_detail.html', {'post_detail':post_detail, 'posts':posts})
+    post_title = post_detail.title
+    title_list = post_title.split()
+    print("제목리스트 :", title_list)
+    q = Q()
+    for word in title_list:
+        q.add(Q(title__icontains=word), q.OR)
+        print(q)
+    relevant_posts = Post.objects.all()
+    # print("relevent_post 목록 : ", relevant_posts)
+    relevant_posts = relevant_posts.filter(q)
+    # print("relevent_post 목록2 : ", relevant_posts)
+    return render(request, 'post_detail.html', {'post_detail':post_detail, 'relevant_posts':relevant_posts})
+
+def login(request):
+    # POST 요청이 들어오면 로그인 처리
+    if request.method == 'POST':
+        userid = request.POST['email']
+        pwd = request.POST['password']
+        user = auth.authenticate(request, email=userid, password=pwd)
+        if user is not None:
+            auth.login(request, user)
+            return redirect('index.html')
+        else:
+            return render(request, 'login.html')
+    # GET 요청이 들어오면 login form을 담고 있는 login.html을 띄워줌
+    else:
+        return render(request, 'login.html')
+
+def join(request):
+    if request.method == "GET":
+        return render(request, 'join.html')
+    # else: # POST
+    #     #로그인 로직
+        redirect
+
+def logout(request):
+    auth.logout(request)
+    return redirect('index.html')

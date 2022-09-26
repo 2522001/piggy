@@ -16,11 +16,11 @@
 
 const btn_search = document.getElementById("btn_search");
 btn_search.addEventListener('click', function() {
+    const selectedLoc = document.querySelector("#loc2");
+
     document.getElementById('kw').value = document.getElementById('search_kw').value;
-    // document.getElementById('kw_age').value = document.getElementById('search_kw_age').value;
+   // document.getElementById('kw_age').value = document.getElementById('search_kw_age').value;
+    document.getElementById('kw_loc').value = selectedLoc.value;
     // document.getElementById('page').value = 1;  // 검색버튼을 클릭할 경우 1페이지부터 조회한다.
     document.getElementById('searchForm').submit();
-});
-
-
-
+})

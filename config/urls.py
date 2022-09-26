@@ -16,6 +16,10 @@ urlpatterns = [
 
     path('search-detail/', views.search_detail, name='search-detail'),
     path('post-detail/<int:post_id>', views.get_post_detail, name='post-detail'),
+
+    path('login/', views.login, name='login'),
+    path('join/', views.join, name='join'),
+    
 ]
 
 # 미디어 파일 접근 url

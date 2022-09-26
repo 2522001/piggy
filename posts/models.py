@@ -44,7 +44,13 @@ class Post(models.Model):
     loc2 = models.CharField(max_length=10, blank=True, null=True) # 강남구, 강동구 ...
     target = MultiSelectField(max_length=60, choices=TargetChoices, default="청년", blank=True, null=True)
     income = MultiSelectField(max_length=60, choices=IncomeChoices, default="무소득", blank=True, null=True)
+    count = models.PositiveBigIntegerField(default=0) # 조회수
     # date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title
+    
+    @property
+    def update_counter(self):
+        self.count = self.count + 1
+        self.save()
