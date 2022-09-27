@@ -7,14 +7,17 @@
         <div class="text-center">
             <img class="main-img" src="../static/assets/piggy-bank.png" width="130px">
             <div class="search">
+                <form id="searchForm" method="GET" action="{% url 'search-list' %}">
                 <div class="search-box">
-                    <input class="search-txt" type="text" id="search_kw" value="{{ kw }}" placeholder="검색어를 입력하세요">
+                    <input class="search-txt" type="text" id="search_kw" placeholder="검색어를 입력하세요">
                     <i class="fas fa-search" id="btn_search"></i>
-                </div>
-                <form id="searchForm" method="get" action="{% url 'search-list' %}">
-                    <input type="hidden" id="kw" name="kw" value="{{ kw }}">
+                    <input type="hidden" id="kw" name="kw">
                     <!-- <input type="hidden" id="page" name="page" value="{{ page }}"> -->
                 </form>
+                </div>
+
+                
+                   
                 
                 <div class="search-tag">
                     {% for tag in kw_tags %}
@@ -64,6 +67,8 @@
                             <!-- term -->
                             {% if post.end_date %}
                                 ~ {{ post.end_date|date:"y.m.d" }} </br>
+                            {% elif post.category == '주간 소식' %}
+                                주간 소식 </br>
                             {% else %}
                                 상시 </br>
                             {% endif %}
@@ -80,4 +85,15 @@
     </div>
 </section>
 
+<script>
+    const btn_search = document.getElementById("btn_search");
+    btn_search.addEventListener('click', function() {
+    //const selectedLoc = document.querySelector("#loc2");
+    document.getElementById('kw').value = document.getElementById('search_kw').value;
+   // document.getElementById('kw_age').value = document.getElementById('search_kw_age').value;
+    //document.getElementById('kw_loc').value = selectedLoc.value;
+    // document.getElementById('page').value = 1;  // 검색버튼을 클릭할 경우 1페이지부터 조회한다.
+    document.getElementById('searchForm').submit();
+})
+</script>
 {% endblock %}

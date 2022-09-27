@@ -33,6 +33,8 @@
                             <!-- term -->
                             {% if post.end_date %}
                                 ~ {{ post.end_date|date:"y.m.d" }} </br>
+                            {% elif post.category == '주간 소식' %}
+                                주간 소식 </br>
                             {% else %}
                                 상시 </br>
                             {% endif %}

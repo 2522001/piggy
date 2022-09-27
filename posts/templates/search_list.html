@@ -20,6 +20,7 @@
                 </div>
                     <input type="hidden" id="kw" name="kw">
                     <input type="hidden" id="kw_age">
+                    <input type="hidden" id="kw_loc0" name="kw_loc0">
                     <input type="hidden" id="kw_loc" name="kw_loc">
                 <div class="search-tag">
                     <!-- 나이 -->
@@ -31,7 +32,7 @@
                         <!-- <select name="sido1" id="sido1"></select>
                         <select name="gugun1" id="gugun1"></select>
                     </span> -->
-                         <select onchange="location2(this)">
+                         <select id="loc0" onchange="location2(this)">
                             <option>전체</option>
                             <option value="서울">서울</option>
                             <option value="경기">경기</option>
@@ -185,6 +186,8 @@
                                     <!-- term -->
                                     {% if post.end_date %}
                                         ~ {{ post.end_date|date:"y.m.d" }} </br>
+                                    {% elif post.category == '주간 소식' %}
+                                        주간 소식 </br>
                                     {% else %}
                                         상시 </br>
                                     {% endif %}
