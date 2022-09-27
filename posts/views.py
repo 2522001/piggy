@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Post
+from .models import Post, Tag
 from django.db.models import Q
 from django.contrib import auth # 유저 확인
 from django.contrib.auth.models import User
@@ -29,7 +29,10 @@ def home(request):
     #     posts = Post.objects.filter().order_by('-end_date') # 내림차순
     # else:
     #     posts = Post.objects.all()
-    return render(request, 'index.html', {'posts':posts})
+
+    kw_tags = Tag.objects.all()
+
+    return render(request, 'index.html', {'posts':posts, 'kw_tags':kw_tags})
 
 def search_list(request):
 
@@ -109,6 +112,21 @@ def search_list(request):
         "search_posts":search_posts
     }
     return render(request, 'search_list.html', context=context)
+
+def tag_search_list(request, tag_id):
+    tag_detail = get_object_or_404(Tag, pk=tag_id)
+    kw_tag = tag_detail.keyword
+    print(kw_tag)
+
+    tag_search_posts = Post.objects.filter().order_by('-count')
+    tag_search_posts = tag_search_posts.filter(
+                Q(title__icontains=kw_tag) |
+                Q(body__icontains=kw_tag)  |
+                Q(subhead__icontains=kw_tag)
+        ).distinct()
+
+    kw_tags = Tag.objects.all()
+    return render(request, 'tag_search_list.html', {'kw_tag':kw_tag,'tag_search_posts':tag_search_posts, 'kw_tags':kw_tags})
 
 def list_all(request):
     posts = Post.objects.all() # 모든 소식

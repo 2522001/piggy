@@ -54,3 +54,9 @@ class Post(models.Model):
     def update_counter(self):
         self.count = self.count + 1
         self.save()
+
+class Tag(models.Model):
+    keyword = models.CharField(max_length=10)
+    
+    def __str__(self):
+        return self.keyword

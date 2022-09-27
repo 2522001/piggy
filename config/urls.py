@@ -14,7 +14,7 @@ urlpatterns = [
     path('list-product/', views.list_product, name='list-product'),
     path('list-weekly/', views.list_weekly, name='list-weekly'),
 
-    path('search-detail/', views.search_detail, name='search-detail'),
+    path('tag-search-list/<int:tag_id>', views.tag_search_list, name='tag-search-list'),
     path('post-detail/<int:post_id>', views.get_post_detail, name='post-detail'),
 
     path('accounts/', include('accounts.urls')),
