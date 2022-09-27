@@ -1,12 +1,29 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Post
+from django.db.models import Q
 from django.contrib import auth # 유저 확인
 from django.contrib.auth.models import User
-from django.db.models import Q
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
 
 # 주요 소식을 불러오는 함수
 def home(request):
     posts = Post.objects.all()
+    if request.user.is_authenticated:
+        user_kw1 = request.user.keyword1
+        user_kw2 = request.user.keyword2
+        print(user_kw1)
+        print(user_kw2)
+        posts = posts.filter(
+                    Q(title__icontains=user_kw1) |
+                    Q(body__icontains=user_kw1)  |
+                    Q(subhead__icontains=user_kw1)|
+                    Q(title__icontains=user_kw2) |
+                    Q(body__icontains=user_kw2)  |
+                    Q(subhead__icontains=user_kw2)
+            ).distinct()
     # sort = request.GET.get('sort', '')
     # if sort == 'date':
     #     posts = Post.objects.filter().order_by('-end_date') # 내림차순
@@ -62,6 +79,7 @@ def search_list(request):
     if income:
         search_posts = search_posts.filter(
             Q(income__icontains=income)
+            # Q(income=None)
         ).distinct()
 
     print("카테고리 전 search_posts :", search_posts)
@@ -76,7 +94,7 @@ def search_list(request):
         print("target 전 : ", kw_target)
         search_posts = search_posts.filter(
             Q(target__icontains=kw_target)
-        )
+        ).distinct()
     print(search_posts.query)
     print("target 후 search_posts : ", search_posts)
     if len(search_posts) > 0:
@@ -127,29 +145,3 @@ def get_post_detail(request, post_id):
     relevant_posts = relevant_posts.filter(q)
     # print("relevent_post 목록2 : ", relevant_posts)
     return render(request, 'post_detail.html', {'post_detail':post_detail, 'relevant_posts':relevant_posts})
-
-def login(request):
-    # POST 요청이 들어오면 로그인 처리
-    if request.method == 'POST':
-        userid = request.POST['email']
-        pwd = request.POST['password']
-        user = auth.authenticate(request, email=userid, password=pwd)
-        if user is not None:
-            auth.login(request, user)
-            return redirect('index.html')
-        else:
-            return render(request, 'login.html')
-    # GET 요청이 들어오면 login form을 담고 있는 login.html을 띄워줌
-    else:
-        return render(request, 'login.html')
-
-def join(request):
-    if request.method == "GET":
-        return render(request, 'join.html')
-    # else: # POST
-    #     #로그인 로직
-        redirect
-
-def logout(request):
-    auth.logout(request)
-    return redirect('index.html')

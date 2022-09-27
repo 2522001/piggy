@@ -51,6 +51,7 @@ DJANGO_APPS = [
 
 PROJECT_APPS = [
     'posts',
+    'accounts',
 ]
 
 THIRD_PARTY_APPS = []
@@ -88,6 +89,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
+AUTH_USER_MODEL = 'accounts.ServiceUser'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -136,7 +138,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'posts', 'static')
+    os.path.join(BASE_DIR, 'posts', 'static'),
+    os.path.join(BASE_DIR, 'accounts', 'static')
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')

@@ -17,10 +17,10 @@
                 </form>
                 
                 <div class="search-tag">
-                    <a class="tag" href="#!">청약 신청</a>
-                    <a class="tag" href="#!">적금 팁</a>
-                    <a class="tag" href="#!">교통비 환급</a>
-                    <a class="tag" href="#!">주식 입문</a>
+                    <a class="tag" href="#!">청약</a>
+                    <a class="tag" href="#!">적금</a>
+                    <a class="tag" href="#!">교통비</a>
+                    <a class="tag" href="#!">주식</a>
                     <a class="tag font-gray" href="{% url 'search-list' %}">상세 검색</a>
                 </div>
             </div>
@@ -32,7 +32,11 @@
 <section class="py-4 bg-light">
     <div class="navbar navbar-expand-lg navbar-light">
         <div class="container px-4 px-lg-5">
+            {% if user.is_authenticated %}
+            <h3 class="fw-bolder">{{ user.username }}님을 위한 맞춤 소식</h3>
+            {% else %}
             <h3 class="fw-bolder">주요 소식</h3>
+            {% endif %}
             <ul class="navbar-nav mb-2 ms-lg-4">
                 <li class="nav-item"><a class="nav-link" href="#!">조회순</a></li>
                 <li class="nav-item"><a class="nav-link" href="#!">마감기한순</a></li>

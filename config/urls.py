@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from posts import views
 from django.conf import settings
 from django.conf.urls.static import static
@@ -17,9 +17,7 @@ urlpatterns = [
     path('search-detail/', views.search_detail, name='search-detail'),
     path('post-detail/<int:post_id>', views.get_post_detail, name='post-detail'),
 
-    path('login/', views.login, name='login'),
-    path('join/', views.join, name='join'),
-    
+    path('accounts/', include('accounts.urls')),
 ]
 
 # 미디어 파일 접근 url
